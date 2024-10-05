@@ -3,7 +3,6 @@ provider "aws" {
   region = "us-east-1"  # Cambiado a us-east-1 (Norte de virginia)
 }
 
-# Crear VPC con rango 30.0.0.0/16
 resource "aws_vpc" "my_vpc" {
   cidr_block       = "30.0.0.0/16"
   enable_dns_hostnames = true
@@ -14,15 +13,14 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 
-# Crear 2 Subnets Públicas
 resource "aws_subnet" "public_subnet_1" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = "30.0.1.0/24"
   map_public_ip_on_launch = true
-  availability_zone = "us-east-1a"  # Cambiada a us-east-1a
+  availability_zone = "us-east-1a"
 
   tags = {
-    Name = "public_subnet_1"
+    Name = "my_public_subnet_1"
   }
 }
 
@@ -33,7 +31,7 @@ resource "aws_subnet" "public_subnet_2" {
   availability_zone = "us-east-1b"  # Cambiada a us-east-1b
 
   tags = {
-    Name = "public_subnet_2"
+    Name = "my_public_subnet_2"
   }
 }
 
@@ -44,7 +42,7 @@ resource "aws_subnet" "private_subnet_1" {
   availability_zone = "us-east-1c"  # Cambiada a us-east-1c
 
   tags = {
-    Name = "private_subnet_1"
+    Name = "my_private_subnet_1"
   }
 }
 
@@ -54,7 +52,7 @@ resource "aws_subnet" "private_subnet_2" {
   availability_zone = "us-east-1d"  # Cambiada a us-east-1d
 
   tags = {
-    Name = "private_subnet_2"
+    Name = "my_private_subnet_2"
   }
 }
 
@@ -63,7 +61,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
-    Name = "my_internet_gateway"
+    Name = "internet_gateway"
   }
 }
 
@@ -77,7 +75,7 @@ resource "aws_route_table" "public_route_table" {
   }
 
   tags = {
-    Name = "main_route_table"
+    Name = "route_table_public"
   }
 }
 
@@ -97,7 +95,7 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
-    Name = "private_route_table"
+    Name = "route_table_private"
   }
 }
 
